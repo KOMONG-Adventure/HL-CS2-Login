@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="mn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; connect-src 'none'"><title>HL CS2 Studio · FACEIT callback</title><style>:root{color-scheme:dark}body{margin:0;background:#0c131b;color:#e9f0f5;font:16px/1.7 'Segoe UI',Arial,sans-serif;display:grid;place-items:center;min-height:100vh}main{max-width:580px;padding:40px;margin:24px;border:1px solid #65d4ad30;border-radius:18px;background:#121e28}.label{color:#65d4ad;font-size:11px;letter-spacing:2px}h1{font-size:28px;line-height:1.3}#status{color:#a5b7c4}.note{color:#728494;font-size:12px;margin-top:28px}a{display:inline-block;background:#65d4ad;color:#10261e;padding:10px 18px;border-radius:8px;text-decoration:none}[hidden]{display:none!important}</style></head><body><main><p class="label">HL CS2 STUDIO · FACEIT CONNECT</p><h1>Login хариуг app руу дамжуулж байна.</h1><p id="status" role="status">HL CS2 Studio нээлттэй байх ёстой.</p><a id="continue" hidden>App руу үргэлжлүүлэх</a><p class="note">Энэ хуудсанд нууц үг эсвэл API token оруулахгүй.</p></main><script>
+// No analytics, cookies, browser storage, or background requests.
+(function(){
+ const input=new URLSearchParams(location.search),state=input.get('state')||'',code=input.get('code')||'',error=input.get('error');
+ history.replaceState(null,'',location.pathname);
+ if(!/^[a-f0-9]{64}$/i.test(state)||(!code&&!error)||code.length>4096){document.getElementById('status').textContent='Login хариу дутуу эсвэл буруу байна. HL CS2 Studio дээрээс FACEIT Login дахин эхлүүлнэ үү.';return;}
+ const target=new URL('http://127.0.0.1:43821/callback');target.searchParams.set('state',state);
+ if(code)target.searchParams.set('code',code);else target.searchParams.set('error','access_denied');
+ const link=document.getElementById('continue');link.href=target.href;link.hidden=false;
+ document.getElementById('status').textContent='Нэвтэрсэн хариуг энэ PC дээрх HL CS2 Studio руу дамжуулна. App руу буцаж очоорой.';
+ location.replace(target.href);
+})();
+</script></body></html>
